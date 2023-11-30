@@ -29,3 +29,5 @@ jobs:
       with:
         branch: gh-pages  # Set the branch to deploy to (GitHub Pages branch)
         folder: dist      # Set the folder to deploy (output of the build process)
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
