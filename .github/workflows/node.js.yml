@@ -24,8 +24,25 @@ jobs:
     - name: Build Vue 3 app
       run: npm run build
 
-    - name: Deploy to GitHub Pages
-      uses: JamesIves/github-pages-deploy-action@4.1.4
+    - name: Checkout
+      uses: actions/checkout@v3
+      
+    - name: Setup Pages
+      uses: actions/configure-pages@v3
+      
+    - name: Upload artifact
+      uses: actions/upload-pages-artifact@v2
       with:
-        branch: gh-pages  # Set the branch to deploy to (GitHub Pages branch)
-        folder: dist      # Set the folder to deploy (output of the build process)
+        path: './dist'
+        
+    - name: Deploy to GitHub Pages
+      id: deployment
+      uses: actions/deploy-pages@v2
+
+      
+
+    # - name: Deploy to GitHub Pages
+    #   uses: JamesIves/github-pages-deploy-action@4.1.4
+    #   with:
+    #     branch: gh-pages  # Set the branch to deploy to (GitHub Pages branch)
+    #     folder: dist      # Set the folder to deploy (output of the build process)
