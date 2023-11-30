@@ -115,12 +115,18 @@ body {
 
 .call-info {
   position: absolute;
-  top:0;
-  left: 0;
-  width: 100%;
+  top:10px;
+  left: 10px;
+  width: calc( 100% - 20px );
   padding: 10px 0;
-  background-color: rgba(0,0,0,0.2);
+  background-color: rgba(0,0,0,0.3);
+  border-radius: 10px;
   z-index: 20;
+}
+
+.call-info div {
+  font-weight: bold;
+  color: #fff;
 }
 
 
