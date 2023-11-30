@@ -1,114 +1,98 @@
 <script setup lang="ts">
 
-import {onBeforeMount, ref} from "vue";
+import {onBeforeMount, onMounted, ref} from "vue";
 import { Peer } from "peerjs";
 
-// const myVideo = ref<HTMLVideoElement>(null)
-const fVideo = ref<any>(undefined)
-const mVideo = ref<any>(undefined)
+const friendVideo = ref<any>(undefined)
+const myVideo = ref<any>(undefined)
 
-let peerID = ref('');
-let peerFID = ref('');
+const peerID = ref('');
+const peerFID = ref('');
+// @ts-ignore
+const getUserMedia = ref<any>(navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia);
 
 const peer = new Peer()
 
-onBeforeMount(()=>{
+onMounted(()=>{
+
+  getUserMedia.value(
+      {video: true, audio: false},
+      (stream: any) => {
+        myVideo.value = stream
+      });
 
   peer.on('open', id => {
     peerID.value = id
   })
 
   peer.on('error', error => {
-    console.log(error)
+    alert('error')
+    console.error(error)
   })
 
   peer.on('close', () => {
+    alert('close')
     console.log('close')
   })
 
   peer.on('disconnected', disconnected => {
+    alert('disconnected')
     console.log(disconnected)
   })
 
-  // @ts-ignore
-  let getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
   peer.on('call', (call) => {
-
-    getUserMedia(
+    getUserMedia.value(
         {video: true, audio: true},
         (stream : any) => {
           call.answer(stream);
           call.on('stream', (remoteStream) => {
             console.log(remoteStream)
-            console.log(fVideo.value)
-            fVideo.value = remoteStream
+            console.log(friendVideo.value)
+            friendVideo.value = remoteStream
           });
         }, (err: any) => {
+          alert('Failed to get local stream')
           console.log('Failed to get local stream' ,err);
         });
-
-    getUserMedia(
-        {video: true, audio: false},
-        (stream: any) => {
-          mVideo.value = stream
-        });
-
   });
 
 })
 
 function callPeer() {
-  // @ts-ignore
-  let getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
-
-  getUserMedia(
+  getUserMedia.value(
       { video: true, audio: true },
       (stream: any) => {
         const call = peer.call(peerFID.value, stream);
         call.on("stream", (remoteStream) => {
-          fVideo.value = remoteStream
+          friendVideo.value = remoteStream
         });
       },
       (err: any) => {
+        alert('Failed to get local stream')
         console.error("Failed to get local stream", err);
-      });
-
-  getUserMedia(
-      {video: true, audio: false},
-      (stream: any) => {
-        mVideo.value = stream
       });
 }
 </script>
 
 <template>
-
-  <div class="home" style="text-align: center">
-    <h1>Peer Video</h1>
-    <div>
-      my id:
-      <input type="text" v-model="peerID">
+  <div class="home">
+    <div class="call-info">
+      <div>
+        my id:
+        <input type="text" v-model="peerID">
+      </div>
+      <div>
+        friend id:
+        <input type="text" v-model="peerFID"><button @click.prevent="callPeer()">Call</button>
+      </div>
+      <div>
+      </div>
     </div>
-    <div>
-      friend id:
-      <input type="text" v-model="peerFID">
+    <div class="friend-video">
+      <video width="300" :srcObject="friendVideo" autoplay loop playsInline></video>
     </div>
-    <div>
-      <button @click.prevent="callPeer()">Call</button>
+    <div class="my-video">
+      <video width="300" :srcObject="myVideo" autoplay loop muted playsInline></video>
     </div>
-    <!--    <div>-->
-    <!--      <video ref="myVideo"></video>-->
-    <!--    </div>-->
-    <div>
-      <!--      <video width="300" height="200" :srcObject.prop="fVideo" autoplay/>-->
-      <video style="border: 2px solid #000" width="300" controls :srcObject="fVideo" autoplay loop playsInline></video>
-    </div>
-    <div>
-      <video style="border: 2px solid #000" width="300" controls :srcObject="mVideo" autoplay loop muted playsInline></video>
-      <!--      <video style="border: 2px solid #000" autoplay/>-->
-    </div>
-    <!--    <HelloWorld msg="Welcome to Your Vue.js App"/>-->
   </div>
-
-  <RouterView />
 </template>
