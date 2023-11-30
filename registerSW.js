@@ -1,0 +1,1 @@
+if('serviceWorker' in navigator) {window.addEventListener('load', () => {navigator.serviceWorker.register('/p2p-vite/sw.js', { scope: '/p2p-vite/' })})}
