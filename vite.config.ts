@@ -11,8 +11,9 @@ export default defineConfig({
     host: true,
     // https: true,
   },
+  base: '/p2p-vite/',
   build: {
-    assetsDir: 'assets'
+    // assetsDir: 'assets',
   },
   plugins: [
     vue(),
