@@ -93,12 +93,12 @@ body {
 .my-video {
   position: absolute;
   height: auto;
-  width: 100px;
+  width: 90px;
   aspect-ratio: 9/16;
   bottom: 20px;
   right: 20px;
   border-radius: 10px;
-  border: 1px solid #000;
+  box-shadow: 0 0 5px rgba(0,0,0,0.5);
   z-index: 10;
   overflow: hidden;
 }
@@ -116,9 +116,9 @@ body {
 .call-info {
   position: absolute;
   top:10px;
-  left: 10px;
-  width: calc( 100% - 20px );
-  padding: 10px 0;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 5px 10px;
   background-color: rgba(0,0,0,0.3);
   border-radius: 10px;
   z-index: 20;
@@ -127,8 +127,55 @@ body {
 .call-info div {
   font-weight: bold;
   color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 0 5px;
+  line-height: 24px;
 }
 
+.call-info button {
+  border-radius: 3px;
+  border: none;
+  background-color: #ccc;
+  color: #fff;
+  cursor: pointer;
+}
+
+.call-info button svg {
+  height: 13px;
+}
+
+.call-info input {
+  border: none;
+  background: rgba(0,0,0,0.3);
+  color: #fff;
+  border-radius: 3px;
+  width: 100px;
+}
+
+.call-info .start-btn, .call-info .call-btn {
+  background-color: green;
+}
+
+.call-info .close-btn {
+  background-color: red;
+}
+
+.call-info .share-btn {
+  background-color: coral;
+}
+
+.call-info .paste-btn {
+  background-color: blueviolet;
+}
+
+.call-info span {
+  white-space: nowrap;
+  display: block;
+  text-align: left;
+  width: 60px;
+  font-size: 13px;
+}
 
 /*@media (max-width: 1024px) {*/
 /*  */
