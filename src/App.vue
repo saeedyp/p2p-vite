@@ -13,12 +13,13 @@ const peerStarted = ref<boolean>(false)
 
 onMounted(()=>{
 
+  // @todo: add route query to direct call
+
   getUserMedia(
       {video: true, audio: true},
       (stream: any) => {
         myVideo.value = stream
       });
-
 })
 
 function startPeer() {
@@ -56,8 +57,8 @@ function startPeer() {
         (stream : any) => {
           call.answer(stream);
           call.on('stream', (remoteStream : any) => {
-            console.log(remoteStream)
-            console.log(friendVideo.value)
+            // console.log(remoteStream)
+            // console.log(friendVideo.value)
             friendVideo.value = remoteStream
           });
         }, (err: any) => {
